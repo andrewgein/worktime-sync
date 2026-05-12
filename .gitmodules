@@ -1,0 +1,3 @@
+[submodule "worktime-frontend"]
+	path = worktime-frontend
+	url = https://github.com/andrewgein/worktime-frontend
