@@ -1,3 +1,6 @@
 [submodule "worktime-frontend"]
 	path = worktime-frontend
 	url = https://github.com/andrewgein/worktime-frontend
+[submodule "worktime-backend/profile-service"]
+	path = worktime-backend/profile-service
+	url = https://github.com/lessmade/profile-service.git
