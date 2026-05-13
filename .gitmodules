@@ -4,3 +4,6 @@
 [submodule "worktime-backend/profile-service"]
 	path = worktime-backend/profile-service
 	url = https://github.com/lessmade/profile-service.git
+[submodule "worktime-backend/gateway"]
+	path = worktime-backend/gateway
+	url = https://github.com/rahmedovdamir/api-gateway
