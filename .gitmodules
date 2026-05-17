@@ -7,3 +7,6 @@
 [submodule "worktime-backend/gateway"]
 	path = worktime-backend/gateway
 	url = https://github.com/rahmedovdamir/api-gateway
+[submodule "worktime-backend/auth-service"]
+	path = worktime-backend/auth-service
+	url = https://github.com/rahmedovdamir/auth-service.git
