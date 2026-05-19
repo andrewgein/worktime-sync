@@ -2,3 +2,4 @@
 **/.env
 **/target/
 **/node_modules/
+.vscode/
