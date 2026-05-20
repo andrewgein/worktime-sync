@@ -10,3 +10,6 @@
 [submodule "worktime-backend/auth-service"]
 	path = worktime-backend/auth-service
 	url = https://github.com/rahmedovdamir/auth-service.git
+[submodule "worktime-backend/notification-service"]
+	path = worktime-backend/notification-service
+	url = https://github.com/rahmedovdamir/notification-service.git
