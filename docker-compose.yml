@@ -1,6 +1,6 @@
 services:
 
-  # ─── Infrastructure ───────────────────────────────────────────────────────────
+  # Infrastructure 
 
   postgres:
     image: postgres:16
@@ -52,7 +52,7 @@ services:
       retries: 5
       start_period: 30s
 
-  # ─── Backend Services ─────────────────────────────────────────────────────────
+  # Backend Services
 
   auth-service:
     build: ./auth-service
@@ -104,6 +104,22 @@ services:
       kafka:
         condition: service_healthy
 
+  team-service:
+    build: ./team-service
+    container_name: timesync-team
+    ports:
+      - "8086:8086"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/team_service
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+        
   api-gateway:
     build: ./api-gateway
     container_name: timesync-gateway
@@ -113,6 +129,7 @@ services:
       REDIS_HOST: redis
       AUTH_SERVICE_URL: http://auth-service:8081
       PROFILE_SERVICE_URL: http://profile-service:8082
+      TEAM_SERVICE_URL: http://team-service:8086
     depends_on:
       redis:
         condition: service_healthy
@@ -120,8 +137,10 @@ services:
         condition: service_started
       profile-service:
         condition: service_started
+      team-service:
+        condition: service_started
 
-  # ─── Frontend ─────────────────────────────────────────────────────────────────
+  # Frontend 
 
   worktime-frontend:
     build: ./worktime-frontend
