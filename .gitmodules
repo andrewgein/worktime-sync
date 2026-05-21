@@ -19,3 +19,6 @@
 [submodule "worktime-backend/team_service"]
 	path = worktime-backend/team-service
 	url = https://github.com/rahmedovdamir/team_service
+[submodule "worktime-backend/conflict-service"]
+	path = worktime-backend/conflict-service
+	url = https://github.com/lessmade/conflict-service
