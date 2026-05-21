@@ -16,3 +16,6 @@
 [submodule "worktime-backend/task-service"]
 	path = worktime-backend/task-service
 	url = https://github.com/lessmade/task-service
+[submodule "worktime-backend/team_service"]
+	path = worktime-backend/team-service
+	url = https://github.com/rahmedovdamir/team_service
