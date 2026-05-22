@@ -3,11 +3,9 @@
 ## Архитектура
 
 ```
-Браузер → worktime-sync.ru (443 HTTPS)
-  → Router VM (nginx + SSL Certbot)
-    → 192.168.1.140:80 (nginx на worktime VM)
-      → /api/** → localhost:8080 (api-gateway)
-      → /       → localhost:3000 (frontend)
+Браузер - worktime-sync.ru (443 HTTPS) -  Router VM (nginx + SSL Certbot) -  192.168.1.140:80 (nginx на worktime VM)
+      -/api/** → localhost:8080 (api-gateway)
+      - /       → localhost:3000 (frontend)
 ```
 
 ---
