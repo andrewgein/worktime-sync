@@ -55,7 +55,7 @@ services:
   # Backend Services
 
   auth-service:
-    build: ./auth-service
+    build: ./worktime-backend/auth-service
     container_name: timesync-auth
     ports:
       - "8081:8081"
@@ -74,7 +74,7 @@ services:
         condition: service_healthy
 
   profile-service:
-    build: ./profile-service
+    build: ./worktime-backend/profile-service
     container_name: timesync-profile
     ports:
       - "8082:8082"
@@ -90,7 +90,7 @@ services:
         condition: service_healthy
 
   notification-service:
-    build: ./notification-service
+    build: ./worktime-backend/notification-service
     container_name: timesync-notification
     ports:
       - "8085:8085"
@@ -108,7 +108,7 @@ services:
         condition: service_healthy
 
   team-service:
-    build: ./team-service
+    build: ./worktime-backend/team-service
     container_name: timesync-team
     ports:
       - "8086:8086"
@@ -124,7 +124,7 @@ services:
         condition: service_healthy
 
   task-service:
-    build: ./task-service
+    build: ./worktime-backend/task-service
     container_name: timesync-task
     ports:
       - "8087:8087"
@@ -139,8 +139,24 @@ services:
       kafka:
         condition: service_healthy
 
+  conflict-service:
+    build: ./worktime-backend/conflict-service
+    container_name: timesync-conflict
+    ports:
+      - "8088:8088"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/conflict
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
   api-gateway:
-    build: ./api-gateway
+    build: ./worktime-backend/gateway
     container_name: timesync-gateway
     ports:
       - "8080:8080"
@@ -150,6 +166,7 @@ services:
       PROFILE_SERVICE_URL: http://profile-service:8082
       TEAM_SERVICE_URL: http://team-service:8086
       TASK_SERVICE_URL: http://task-service:8087
+      CONFLICT_SERVICE_URL: http://conflict-service:8088
       JWT_PUBLIC_KEY_PATH: file:/run/secrets/public.pem
     volumes:
       - ./secrets/public.pem:/run/secrets/public.pem:ro
@@ -164,14 +181,16 @@ services:
         condition: service_started
       task-service:
         condition: service_started
+      conflict-service:
+        condition: service_started
 
-  # Frontend 
+  # Frontend
 
   worktime-frontend:
     build: ./worktime-frontend
     container_name: timesync-frontend
     ports:
-      - "5173:5173"
+      - "80:80"
     depends_on:
       - api-gateway
 
