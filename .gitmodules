@@ -22,3 +22,6 @@
 [submodule "worktime-backend/conflict-service"]
 	path = worktime-backend/conflict-service
 	url = https://github.com/lessmade/conflict-service
+[submodule "worktime-backend/risk-service"]
+	path = worktime-backend/risk-service
+	url = https://github.com/Cyber-cruze/worktime-risk-service
