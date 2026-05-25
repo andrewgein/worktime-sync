@@ -10,6 +10,26 @@
  `auth-service` - 8081 - Аутентификация, JWT, управление пользователями <br>
  `profile-service` - 8082 - Профили сотрудников, рабочие исключения <br> 
  `notification-service` - 8085 - Email-уведомления через Kafka  <br>
+`task-service`  - 8083 - Хранит таски <br>
+`team-service` - 8086 — Хранит информацию о командах <br>
+`conflict-service`- 8088 — Отвечает за конфликты <br>
+
+
+ ## Маршруты
+api-gateway - ```http://api-gateway:8080```
+### Публичные (без токена)
+```POST /api/v1/auth/login``` -`http://auth-service:8081` <br>
+```POST /api/v1/auth/refresh``` - `http://auth-service:8081` <br>
+```POST /api/v1/register``` - `http://auth-service:8081` <br>
+
+### Защищённые (требуют `Authorization: Bearer`)
+```/api/v1/profiles/**``` - `http://profile-service:8082` — роли: ADMIN, EMPLOYEE, TEAM_LEAD, HR <br>
+```/api/v1/teams/**```  - `http://team-service:8086` — роли: все <br>
+```/api/v1/users/**```  - `http://team-service:8086` — роли: ADMIN, TEAM_LEAD <br>
+```/api/v1/tasks/**```  - `http://task-service:8087` — роли: все <br>
+```/api/v1/сonflicts/```  - `http://conflict-service:8088` — роли: все <br>
+```/api/v1/сonflicts/**```  - `http://conflict-service:8088` — роли: все кроме EMPLOYEE <br>
+```/api/v1/risk/**``` - `http://conflict-service:8090` - роли: все <br>
 
 
 ## .env config:
