@@ -155,6 +155,12 @@ services:
       kafka:
         condition: service_healthy
 
+  risk-service:
+    build: ./worktime-backend/risk-service
+    container_name: timesync-risk
+    ports:
+      - "8005:8005"
+
   api-gateway:
     build: ./worktime-backend/gateway
     container_name: timesync-gateway
@@ -167,6 +173,8 @@ services:
       TEAM_SERVICE_URL: http://team-service:8086
       TASK_SERVICE_URL: http://task-service:8087
       CONFLICT_SERVICE_URL: http://conflict-service:8088
+      NOTIFICATION_SERVICE_URL: http://notification-service:8085
+      RISK_SERVICE_URL: http://risk-service:8005
       JWT_PUBLIC_KEY_PATH: file:/run/secrets/public.pem
     volumes:
       - ./secrets/public.pem:/run/secrets/public.pem:ro
@@ -183,12 +191,16 @@ services:
         condition: service_started
       conflict-service:
         condition: service_started
+      risk-service:
+        condition: service_started
 
   # Frontend
 
   worktime-frontend:
     build: ./worktime-frontend
     container_name: timesync-frontend
+    ports:
+      - "3000:80"
     depends_on:
       - api-gateway
 

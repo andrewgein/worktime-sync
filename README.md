@@ -5,7 +5,7 @@
 ## Сервисы
 
  Сервис  - Порт -   Описание <br>
- `worktime-frontend` - 5173 - React / Vite UI <br>
+ `worktime-frontend` - 3000 - React UI <br>
  `api-gateway` - 8080 - Единая точка входа, JWT-фильтр, rate limiting <br>
  `auth-service` - 8081 - Аутентификация, JWT, управление пользователями <br>
  `profile-service` - 8082 - Профили сотрудников, рабочие исключения <br> 
@@ -13,6 +13,7 @@
 `task-service`  - 8083 - Хранит таски <br>
 `team-service` - 8086 — Хранит информацию о командах <br>
 `conflict-service`- 8088 — Отвечает за конфликты <br>
+`risk-service`- 8005 — Анализ рисков <br>
 
 
  ## Маршруты
@@ -29,7 +30,7 @@ api-gateway - ```http://api-gateway:8080```
 ```/api/v1/tasks/**```  - `http://task-service:8087` — роли: все <br>
 ```/api/v1/сonflicts/```  - `http://conflict-service:8088` — роли: все <br>
 ```/api/v1/сonflicts/**```  - `http://conflict-service:8088` — роли: все кроме EMPLOYEE <br>
-```/api/v1/risk/**``` - `http://conflict-service:8090` - роли: все <br>
+```/api/v1/risk/**``` - `http://risk-service:8005` - роли: все <br>
 
 
 ## .env config:
@@ -51,7 +52,7 @@ sudo systemctl stop postgresql redis
 docker compose up --build
 
 # Открыть UI
-open http://localhost:5173
+open http://localhost:3000
 ```
 
 Остановить:
@@ -76,4 +77,3 @@ Topic, Producer , Consumer<br>
 `password.reset.requested` - auth-service -notification-service <br>
 `profile.events` - profile-service - пока нету <br>
 `workday-exception.events` - profile-service - пока нету <br> 
-
