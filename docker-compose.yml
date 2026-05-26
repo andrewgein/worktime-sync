@@ -189,8 +189,6 @@ services:
   worktime-frontend:
     build: ./worktime-frontend
     container_name: timesync-frontend
-    ports:
-      - "80:80"
     depends_on:
       - api-gateway
 
