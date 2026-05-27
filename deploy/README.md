@@ -1,14 +1,13 @@
-# Деплой TymeSinc на worktime-sync.ru
+# Деплой TymeSinc на 'your_domain'
 
 ## Архитектура
 
 ```
-Браузер - worktime-sync.ru (443 HTTPS) -  Router VM (nginx + SSL Certbot) -  192.168.1.140:80 (nginx на worktime VM)
-      -/api/** → localhost:8080 (api-gateway)
-      - /       → localhost:3000 (frontend)
+Браузер - 'your_domain' (443 HTTPS) -  Router VM (nginx + SSL Certbot) -  'your_ip' (nginx на worktime VM)
+      -/api/** -> localhost:8080 (api-gateway)
+      - /       -? localhost:3000 (frontend)
 ```
 
----
 
 ## 1. Router VM — SSL и nginx
 
@@ -23,9 +22,8 @@ sudo cp nginx.router.conf /etc/nginx/conf.d/worktime-sync.conf
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
----
 
-## 2. Worktime VM (192.168.1.140) — подготовка
+## 2. Worktime VM ('your_ip') — подготовка
 
 ### Установить зависимости
 ```bash
@@ -41,7 +39,6 @@ sudo cp deploy/nginx.vm.conf /etc/nginx/conf.d/worktime-sync.conf
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
----
 
 ## 3. Worktime VM — запуск проекта
 
