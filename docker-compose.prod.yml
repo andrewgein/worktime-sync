@@ -1,0 +1,8 @@
+services:
+  worktime-frontend:
+    build:
+      context: ./worktime-frontend
+      args:
+        VITE_API_ENDPOINT: "https://worktime-sync.ru"
+    ports:
+      - "3000:80"
