@@ -75,5 +75,6 @@ docker compose up --build profile-service
 Topic, Producer , Consumer<br> 
 `schedule-notifications` - auth-service - notification-service <br>
 `password.reset.requested` - auth-service -notification-service <br>
+`calendar.reminder` - task-service - notification-service <br>
 `profile.events` - profile-service - пока нету <br>
 `workday-exception.events` - profile-service - пока нету <br> 
