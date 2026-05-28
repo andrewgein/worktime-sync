@@ -1,22 +1,76 @@
-# TimeSync
+# WorkTime-Sync
+Система управления командами, расписаниями и рисками перегрузки сотрудников. Архитектура построена на микросервисах с использованием event-driven подхода через Apache Kafka.
 
-Система учёта рабочего времени. Микросервисная архитектура на Spring Boot  + React.
+![Архитектура системы](<img width="1535" height="910" alt="изображение" src="https://github.com/user-attachments/assets/4c55846c-47ff-4546-8a62-eb85096cbb5e" />)
 
-## Сервисы
+##  Стек технологий
 
- Сервис  - Порт -   Описание <br>
- `worktime-frontend` - 3000 - React UI <br>
- `api-gateway` - 8080 - Единая точка входа, JWT-фильтр, rate limiting <br>
- `auth-service` - 8081 - Аутентификация, JWT, управление пользователями <br>
- `profile-service` - 8082 - Профили сотрудников, рабочие исключения <br> 
- `notification-service` - 8085 - Email-уведомления через Kafka  <br>
-`task-service`  - 8083 - Хранит таски <br>
-`team-service` - 8086 — Хранит информацию о командах <br>
-`conflict-service`- 8088 — Отвечает за конфликты <br>
-`risk-service`- 8005 — Анализ рисков <br>
+### Бэкенд
+*   **Java 21**
+*   **Spring Framework**
+*   **Apache Kafka** (для асинхронного взаимодействия)
+*   **PostgreSQL** (основное хранилище данных)
+*   **Docker** (контейнеризация)
+*   **Redis** (кэширование и балансировка нагрузки gateway)
 
+### Фронтенд
+*   **JavaScript**
+*   **React (Vite)**
+*   **Tailwind CSS**
 
- ## Маршруты
+### ML / LLM Интеграция (Risk Service)
+*   **Python 3.13**
+*   **FastAPI**
+*   **Scikit-learn**
+*   **Numpy**
+*   **Joblib**
+*   **Qwen 2.5** (LLM для анализа и рекомендаций)
+
+### Тестирование
+*   **JUnit**
+*   **Mockito**
+
+##  Архитектура и Сервисы
+Система состоит из микросервисов, взаимодействующих через API Gateway и шину событий Kafka.
+
+### Frontend
+*   **Worktime-frontend:300**: Одностраничное приложение, выступающее в роли фронтенда.
+
+### Микросервисы
+*   **API Gateway:8080**: Точка входа и маршрутизации запросов.
+*   **Auth Service:8081**: Отвечает за аутентификацию пользователей.
+*   **Profile Service:8082**: Управляет профилями сотрудников, общей информацией и графиками работы.
+*   **Task service (Calendar Service):8083**: Синхронизирует календарные события сотрудников, импортирует данные из внешних источников и приводит их к единому формату.
+*   **Team Service:8086**: Хранит команды пользователей. При регистрации нового пользователя (через Auth Service) автоматически создается запись о новом сотруднике.
+*   **Conflict Service:8088**: Сервис обнаружения конфликтов. Принимает данные о графиках и календарных событиях, обнаруживает и автоматически разрешает наложения и конфликты.
+*   **Risk Service:8005**: Считает метрики перегрузки и риски выгорания. На выходе показывает **Risk Score (0-10)** и генерирует рекомендации (использует ML/LLM).
+*   **Notification Service:8085**: Формирует и отправляет уведомления сотрудникам, чей график требует подтверждения или обновления.
+
+### Kafka Topics
+
+*   **password.reset.requested** (`auth-service` → `notification-service`) - Запрос сброса пароля
+*   **email.verification.requested** (`auth-service` → `notification-service`) - Подтверждение email
+*   **user.created** (`auth-service` → `team-service`) - Регистрация пользователя
+*   **calendar.reminder** (`task-service` → `notification-service`) - Напоминание о событии
+*   **calendar.created/updated/deleted** (`task-service` → `notification-service`, `conflict-service`) - Изменения календаря
+*   **profile.created/updated/deleted** (`profile-service` → `conflict-service`) - Изменения профиля
+*   **workday-exception.created** (`profile-service` → `conflict-service`) - Создание исключения
+*   **workday-exception.status-changed** (`profile-service` → `TBD`) - Изменение статуса
+*   **workday-exception.updated** (`TBD` → `conflict-service`) - Обновление исключения
+*   **workday-exception.deleted** (`profile-service` → `conflict-service`) - Удаление исключения
+*   **conflict.detected** (`conflict-service` → `notification-service`) - Обнаружен конфликт
+
+##  Хранилища данных
+Данные распределены по базе данных PostgreSQL в зависимости от домена:
+*   `users` — Пользователи
+*   `profiles` — Профили
+*   `teams` — Команды
+*   `events` — События
+*   `conflicts` — Конфликты
+
+**Redis** используется для хранения данных о нагрузке на Gateway.
+
+## Маршруты
 api-gateway - ```http://api-gateway:8080```
 ### Публичные (без токена)
 ```POST /api/v1/auth/login``` -`http://auth-service:8081` <br>
@@ -76,12 +130,3 @@ docker compose down -v && docker compose build --no-cache
 ```bash
 docker compose up --build profile-service
 ```
-
-## Kafka Topics
-
-Topic, Producer , Consumer<br> 
-`schedule-notifications` - auth-service - notification-service <br>
-`password.reset.requested` - auth-service -notification-service <br>
-`calendar.reminder` - task-service - notification-service <br>
-`profile.events` - profile-service - пока нету <br>
-`workday-exception.events` - profile-service - пока нету <br> 
