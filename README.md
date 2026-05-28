@@ -32,21 +32,28 @@ api-gateway - ```http://api-gateway:8080```
 ```/api/v1/сonflicts/**```  - `http://conflict-service:8088` — роли: все кроме EMPLOYEE <br>
 ```/api/v1/risk/**``` - `http://risk-service:8005` - роли: все <br>
 
-
-## .env config:
-`DB_PASSWORD`=db_password <br>
-`MAIL_USERNAME`=name@gmail.com <br>
-`MAIL_PASSWORD`=aaaa bbbb cccc dddd <br>
-
-
 ## Запуск
 
 ```bash
-# Клонировать репозиторий, перейти в папку проекта
+# Перейдите(создайте) в папку проекта
+mkdir TimeSync
 cd TimeSync
+
+#Клонируйте репозиторий
+git clone --recurse-submodules https://github.com/andrewgein/worktime-sync
+
+#Обновите submodules
+git submodule update --remote --recursive
 
 #Перед запуском остановите службы
 sudo systemctl stop postgresql redis
+
+#Создайте в корневой папке .env файл на основе .env.example
+```
+`DB_PASSWORD`=db_password <br>
+`MAIL_USERNAME`=name@gmail.com <br>
+`MAIL_PASSWORD`=aaaa bbbb cccc dddd <br>
+```
 
 # Запустить весь стек
 docker compose up --build
