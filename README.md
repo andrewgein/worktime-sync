@@ -1,7 +1,7 @@
 # WorkTime-Sync
 Система управления командами, расписаниями и рисками перегрузки сотрудников. Архитектура построена на микросервисах с использованием event-driven подхода через Apache Kafka.
 
-(<img width="1535" height="910" alt="изображение" src="https://github.com/user-attachments/assets/4c55846c-47ff-4546-8a62-eb85096cbb5e" />)
+<img width="1535" height="910" alt="изображение" src="https://github.com/user-attachments/assets/4c55846c-47ff-4546-8a62-eb85096cbb5e" />
 
 ##  Стек технологий
 
