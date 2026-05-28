@@ -1,6 +1,6 @@
 # WorkTime-Sync
 Система управления командами, расписаниями и рисками перегрузки сотрудников. Архитектура построена на микросервисах с использованием event-driven подхода через Apache Kafka.
-
+##  Архитектура
 <img width="1535" height="910" alt="изображение" src="https://github.com/user-attachments/assets/4c55846c-47ff-4546-8a62-eb85096cbb5e" />
 
 ##  Стек технологий
@@ -38,7 +38,7 @@
 
 ### Микросервисы
 *   **API Gateway:8080**: Точка входа и маршрутизации запросов.
-*   **Auth Service:8081**: Отвечает за аутентификацию пользователей.
+*   **Auth Service:8081**: Отвечает за аутентификацию и регистрацию пользователей.
 *   **Profile Service:8082**: Управляет профилями сотрудников, общей информацией и графиками работы.
 *   **Task service (Calendar Service):8083**: Синхронизирует календарные события сотрудников, импортирует данные из внешних источников и приводит их к единому формату.
 *   **Team Service:8086**: Хранит команды пользователей. При регистрации нового пользователя (через Auth Service) автоматически создается запись о новом сотруднике.
@@ -55,8 +55,6 @@
 *   **calendar.created/updated/deleted** (`task-service` → `notification-service`, `conflict-service`) - Изменения календаря
 *   **profile.created/updated/deleted** (`profile-service` → `conflict-service`) - Изменения профиля
 *   **workday-exception.created** (`profile-service` → `conflict-service`) - Создание исключения
-*   **workday-exception.status-changed** (`profile-service` → `TBD`) - Изменение статуса
-*   **workday-exception.updated** (`TBD` → `conflict-service`) - Обновление исключения
 *   **workday-exception.deleted** (`profile-service` → `conflict-service`) - Удаление исключения
 *   **conflict.detected** (`conflict-service` → `notification-service`) - Обнаружен конфликт
 
